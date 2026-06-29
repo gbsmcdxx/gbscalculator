@@ -4,40 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>경기북과학고 맞춤형 성적 도우미</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    
     <style>
         :root {
-            /* Color Palette */
-            --bg-color: #f3f4f6;
-            --card-bg: #ffffff;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --input-bg: #f9fafb;
+            /* High-Teen Highlight Color Palette */
+            --point-pink: #FF66B2;      /* Barbie Pink */
+            --accent-yellow: #FFF200;   /* Highlighter Lemon */
+            --accent-purple: #E0B0FF;   /* Light Purple */
+            --bg-pattern: #ffeef8;      /* Pastel Pink Base */
             
-            /* Brand Colors (Indigo & Royal Blue) */
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --primary-light: #eff6ff;
-            --primary-text: #1e3a8a;
+            --text-main: #1a1a2e;       /* Deep Navy / Dark Grey */
+            --border-dark: #1a1a2e;     /* Neo-Brutalism Thick Border */
             
             /* UI Variables */
             --radius-card: 24px;
-            --radius-element: 14px;
-            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.04);
-            --shadow-hover: 0 8px 20px rgba(37, 99, 235, 0.15);
+            --radius-element: 16px;
+            --brutal-shadow: 4px 4px 0px var(--border-dark);
+            --brutal-shadow-hover: 6px 6px 0px var(--border-dark);
+            --brutal-shadow-active: 1px 1px 0px var(--border-dark);
         }
 
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
+            /* 기본 폰트 세팅 */
             font-family: 'Pretendard', sans-serif; 
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-pattern);
+            /* 하이틴 감성의 은은한 체크보드 패턴 */
+            background-image: 
+                linear-gradient(45deg, #ffd9ed 25%, transparent 25%, transparent 75%, #ffd9ed 75%, #ffd9ed), 
+                linear-gradient(45deg, #ffd9ed 25%, transparent 25%, transparent 75%, #ffd9ed 75%, #ffd9ed);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -47,169 +52,287 @@
         }
 
         .calculator-card {
-            background: var(--card-bg);
+            background: #ffffff;
             width: 100%;
             max-width: 480px;
+            border: 3px solid var(--border-dark);
             border-radius: var(--radius-card);
-            box-shadow: var(--shadow-card);
-            padding: 32px 24px;
-            overflow: hidden;
+            box-shadow: 8px 8px 0px var(--border-dark);
+            padding: 36px 24px;
+            position: relative;
+        }
+
+        /* 반짝이 스티커 데코레이션 */
+        .calculator-card::after {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.1); }
         }
 
         /* Header */
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h1 { font-size: 22px; font-weight: 700; color: var(--text-main); letter-spacing: -0.5px; margin-bottom: 6px; }
-        .header p { color: var(--text-muted); font-size: 14px; letter-spacing: -0.2px; }
+        .header { text-align: center; margin-bottom: 28px; }
+        .header h1 { 
+            font-family: 'Jua', sans-serif; 
+            font-size: 28px; 
+            color: var(--text-main); 
+            text-shadow: 2px 2px 0px var(--accent-purple); 
+            margin-bottom: 8px; 
+            letter-spacing: 1px;
+        }
+        .header p { 
+            font-family: 'Pretendard';
+            font-weight: 700;
+            color: var(--point-pink); 
+            font-size: 15px; 
+        }
 
         /* Tab Navigation */
         .tab-nav {
             display: flex;
-            background-color: var(--input-bg);
-            padding: 6px;
-            border-radius: 16px;
-            margin-bottom: 28px;
-            gap: 4px;
+            flex-wrap: wrap;
+            padding: 0;
+            margin-bottom: 30px;
+            gap: 8px;
+            justify-content: center;
         }
         .tab-btn {
-            flex: 1;
+            flex: 1 1 calc(33.333% - 8px);
             padding: 12px 0;
-            border: none;
-            background: transparent;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-radius: 12px;
+            border: 2px solid var(--border-dark);
+            background: #ffffff;
+            font-size: 15px;
+            font-family: 'Jua', sans-serif;
+            color: var(--text-main);
+            border-radius: var(--radius-element);
+            box-shadow: 3px 3px 0px var(--border-dark);
             cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            word-break: keep-all;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-width: 80px;
+            letter-spacing: 0.5px;
+        }
+        .tab-btn:hover {
+            background-color: var(--accent-purple);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: var(--brutal-shadow);
         }
         .tab-btn.active {
-            background: var(--card-bg);
-            color: var(--primary);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            background: var(--accent-yellow);
+            color: var(--text-main);
+            transform: translateY(2px);
+            box-shadow: var(--brutal-shadow-active);
         }
 
         /* Tab Content */
-        .tab-content { display: none; animation: fadeIn 0.3s ease-out; }
+        .tab-content { display: none; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .tab-content.active { display: block; }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95) translateY(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--text-main); }
-        .section-desc { font-size: 13px; color: var(--text-muted); margin-top: -10px; margin-bottom: 20px; }
+        .section-title { font-family: 'Jua', sans-serif; font-size: 22px; margin-bottom: 6px; color: var(--text-main); }
+        .section-desc { font-size: 14px; font-weight: 600; color: #555; margin-bottom: 20px; }
 
         /* Lists & Inputs */
-        .list-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .list-group { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
         .item-row {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 16px; 
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color); 
+            padding: 14px 18px; 
+            background-color: #ffffff;
+            border: 2px solid var(--border-dark); 
             border-radius: var(--radius-element);
-            transition: border-color 0.2s;
+            box-shadow: 3px 3px 0px var(--border-dark);
+            transition: transform 0.2s ease;
         }
-        .item-row:hover { border-color: #d1d5db; }
+        .item-row:hover { transform: translateX(4px); }
         
-        .item-label { font-weight: 600; font-size: 15px; color: var(--text-main); }
-        .item-sub { font-size: 12px; color: var(--primary); font-weight: 600; background: var(--primary-light); padding: 2px 8px; border-radius: 6px; margin-top: 4px; display: inline-block; }
+        .item-label { font-family: 'Jua', sans-serif; font-size: 17px; color: var(--text-main); letter-spacing: 0.5px; }
+        .item-sub { 
+            font-family: 'Fredoka', 'Pretendard', sans-serif;
+            font-size: 12px; 
+            color: var(--text-main); 
+            font-weight: 700; 
+            background: var(--accent-purple); 
+            padding: 4px 10px; 
+            border: 1px solid var(--border-dark);
+            border-radius: 10px; 
+            margin-top: 6px; 
+            display: inline-block; 
+        }
 
         select, input[type="number"] {
-            background-color: var(--input-bg);
-            border: 1px solid transparent;
-            border-radius: 10px; 
-            padding: 10px 12px; 
-            font-size: 15px; 
-            font-weight: 600;
+            background-color: #ffffff;
+            border: 2px solid var(--border-dark);
+            border-radius: 12px; 
+            padding: 10px 14px; 
+            font-size: 16px; 
+            font-family: 'Fredoka', 'Pretendard', sans-serif;
+            font-weight: 700;
             color: var(--text-main);
             outline: none; 
-            width: 120px; 
+            width: 110px; 
             text-align: center; 
-            transition: all 0.2s;
+            box-shadow: 2px 2px 0px var(--border-dark);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         select:focus, input[type="number"]:focus {
-            background-color: var(--card-bg);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: #fffaf0;
+            border-color: var(--point-pink);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 4px 4px 0px var(--point-pink);
         }
 
         select {
-            appearance: none; padding-right: 30px; cursor: pointer;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 10px center;
+            appearance: none; 
+            padding-right: 28px; 
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%231a1a2e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat; 
+            background-position: right 10px center;
         }
 
         /* Buttons */
         .calc-btn {
             width: 100%; 
-            background-color: var(--primary); 
-            color: white; 
-            border: none; 
-            padding: 16px;
-            font-size: 16px; 
-            font-weight: 700; 
+            background-color: var(--point-pink); 
+            color: #ffffff; 
+            border: 3px solid var(--border-dark); 
+            padding: 18px;
+            font-family: 'Jua', sans-serif;
+            font-size: 18px; 
+            letter-spacing: 1px;
             border-radius: var(--radius-element);
+            box-shadow: var(--brutal-shadow);
             cursor: pointer; 
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .calc-btn:hover { 
-            background-color: var(--primary-hover);
-            transform: translateY(-2px); 
-            box-shadow: var(--shadow-hover); 
+            background-color: #ff4da6;
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: var(--brutal-shadow-hover); 
         }
-        .calc-btn:active { transform: translateY(0); }
+        .calc-btn:active { 
+            transform: translateY(2px) scale(0.98); 
+            box-shadow: var(--brutal-shadow-active);
+        }
 
-        /* Result Box */
+        /* Result Box - Polaroid Effect */
         .result-box {
-            margin-top: 20px; 
-            padding: 24px 20px; 
+            margin-top: 28px; 
+            padding: 28px 20px; 
             border-radius: var(--radius-element); 
             text-align: center; 
-            background-color: var(--primary-light);
-            border: 1px solid rgba(37, 99, 235, 0.1);
+            background-color: var(--accent-yellow);
+            border: 3px solid var(--border-dark);
+            box-shadow: var(--brutal-shadow);
+            position: relative;
         }
-        .result-text { font-size: 14px; font-weight: 600; color: var(--primary-text); margin-bottom: 8px; }
-        .result-score { font-size: 32px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
-        .error-text { font-size: 14px; color: #ef4444; font-weight: 600; }
+        
+        /* 마스킹 테이프 데코 요소 */
+        .result-box::before {
+            content: '';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-3deg);
+            width: 100px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+            backdrop-filter: blur(2px);
+        }
+
+        .result-text { font-family: 'Jua', sans-serif; font-size: 16px; color: var(--text-main); margin-bottom: 8px; letter-spacing: 0.5px;}
+        .result-score { 
+            font-family: 'Fredoka', sans-serif; 
+            font-size: 38px; 
+            font-weight: 700; 
+            color: var(--point-pink); 
+            text-shadow: 2px 2px 0px var(--border-dark); 
+            letter-spacing: 1px; 
+        }
+        
+        .error-text { 
+            font-size: 14px; 
+            color: #ff0000; 
+            font-weight: 700; 
+            background: #fff; 
+            padding: 6px 12px; 
+            border: 2px solid var(--border-dark); 
+            border-radius: 12px; 
+            display: inline-block; 
+        }
     </style>
 </head>
 <body>
     <div class="calculator-card">
         <div class="header">
-            <h1>🔬 성적 분석기</h1>
+            <h1>🎀 성적 분석기 🎀</h1>
             <p>경기북과학고 맞춤형 내신 및 통계 예측</p>
         </div>
 
         <div class="tab-nav">
-            <button class="tab-btn active" onclick="switchTab('tab-1')">내신 계산</button>
+            <button class="tab-btn active" onclick="switchTab('tab-1')">2-1 내신</button>
+            <button class="tab-btn" onclick="switchTab('tab-5')">2-2 내신</button>
+            <button class="tab-btn" onclick="switchTab('tab-6')">3-1 내신</button>
             <button class="tab-btn" onclick="switchTab('tab-2')">표준편차</button>
             <button class="tab-btn" onclick="switchTab('tab-3')">목표 점수</button>
             <button class="tab-btn" onclick="switchTab('tab-4')">예상 등수</button>
         </div>
 
         <div id="tab-1" class="tab-content active">
-            <h2 class="section-title">내신 등급 계산기</h2>
-            <p class="section-desc">각 과목의 예상 등급을 입력해주세요.</p>
-            <div class="list-group" id="subjectList"></div>
-            <button class="calc-btn" onclick="calculateGrade()">평균 등급 계산하기</button>
+            <h2 class="section-title">✨ 2학년 1학기 내신</h2>
+            <p class="section-desc">각 과목의 예상 등급을 선택해봐!</p>
+            <div class="list-group" id="subjectList_2_1"></div>
+            <button class="calc-btn" onclick="calculateGrade('2_1')">평균 등급 계산하기 💖</button>
             <div class="result-box">
                 <div class="result-text">최종 평균 내신 등급 (총 28단위)</div>
-                <div class="result-score" id="finalResult">-</div>
+                <div class="result-score" id="finalResult_2_1">-</div>
+            </div>
+        </div>
+
+        <div id="tab-5" class="tab-content">
+            <h2 class="section-title">✨ 2학년 2학기 내신</h2>
+            <p class="section-desc">각 과목의 예상 등급을 선택해봐!</p>
+            <div class="list-group" id="subjectList_2_2"></div>
+            <button class="calc-btn" onclick="calculateGrade('2_2')">평균 등급 계산하기 💖</button>
+            <div class="result-box">
+                <div class="result-text">최종 평균 내신 등급 (총 24단위)</div>
+                <div class="result-score" id="finalResult_2_2">-</div>
+            </div>
+        </div>
+
+        <div id="tab-6" class="tab-content">
+            <h2 class="section-title">✨ 3학년 1학기 내신</h2>
+            <p class="section-desc">각 과목의 예상 등급을 선택해봐!</p>
+            <div class="list-group" id="subjectList_3_1"></div>
+            <button class="calc-btn" onclick="calculateGrade('3_1')">평균 등급 계산하기 💖</button>
+            <div class="result-box">
+                <div class="result-text">최종 평균 내신 등급 (총 28단위)</div>
+                <div class="result-score" id="finalResult_3_1">-</div>
             </div>
         </div>
 
         <div id="tab-2" class="tab-content">
-            <h2 class="section-title">표준편차 역산기</h2>
-            <p class="section-desc">T점수를 통해 과목의 표준편차를 유추합니다.</p>
+            <h2 class="section-title">🔍 표준편차 역산기</h2>
+            <p class="section-desc">T점수를 통해 과목의 표준편차를 유추해줄게!</p>
             <div class="list-group">
-                <div class="item-row"><span class="item-label">내 원점수</span><input type="number" id="sd_raw" placeholder="예: 85"></div>
-                <div class="item-row"><span class="item-label">과목 평균</span><input type="number" id="sd_mean" placeholder="예: 62.5"></div>
-                <div class="item-row"><span class="item-label">T점수(표준점수)</span><input type="number" id="sd_t" placeholder="예: 65"></div>
+                <div class="item-row"><span class="item-label">내 원점수</span><input type="number" id="sd_raw" placeholder="ex: 85"></div>
+                <div class="item-row"><span class="item-label">과목 평균</span><input type="number" id="sd_mean" placeholder="ex: 62.5"></div>
+                <div class="item-row"><span class="item-label">T점수(표준점수)</span><input type="number" id="sd_t" placeholder="ex: 65"></div>
             </div>
-            <button class="calc-btn" onclick="calculateSD()">표준편차 알아내기</button>
+            <button class="calc-btn" onclick="calculateSD()">표준편차 알아내기 💖</button>
             <div class="result-box">
                 <div class="result-text">예측된 과목 표준편차</div>
                 <div class="result-score" id="sdResult">-</div>
@@ -217,15 +340,15 @@
         </div>
 
         <div id="tab-3" class="tab-content">
-            <h2 class="section-title">예상 점수 계산기</h2>
-            <p class="section-desc">원하는 등수를 받기 위한 커트라인을 예측합니다.</p>
+            <h2 class="section-title">🎯 예상 점수 계산기</h2>
+            <p class="section-desc">원하는 등수를 받기 위한 커트라인을 예측해봐!</p>
             <div class="list-group">
                 <div class="item-row"><span class="item-label">학년 총 인원</span><input type="number" id="score_total" value="98"></div>
-                <div class="item-row"><span class="item-label">과목 평균</span><input type="number" id="score_mean" placeholder="예: 70"></div>
-                <div class="item-row"><span class="item-label">표준편차</span><input type="number" id="score_sd" placeholder="예: 15"></div>
-                <div class="item-row"><span class="item-label">목표 등수</span><input type="number" id="score_rank" placeholder="예: 15"></div>
+                <div class="item-row"><span class="item-label">과목 평균</span><input type="number" id="score_mean" placeholder="ex: 70"></div>
+                <div class="item-row"><span class="item-label">표준편차</span><input type="number" id="score_sd" placeholder="ex: 15"></div>
+                <div class="item-row"><span class="item-label">목표 등수</span><input type="number" id="score_rank" placeholder="ex: 15"></div>
             </div>
-            <button class="calc-btn" onclick="calculateExpectedScore()">필요한 점수 확인하기</button>
+            <button class="calc-btn" onclick="calculateExpectedScore()">필요한 점수 확인하기 💖</button>
             <div class="result-box">
                 <div class="result-text">예상 커트라인 원점수</div>
                 <div class="result-score" id="scoreResult">-</div>
@@ -233,15 +356,15 @@
         </div>
 
         <div id="tab-4" class="tab-content">
-            <h2 class="section-title">예상 등수 계산기</h2>
-            <p class="section-desc">내 점수가 전체에서 어느 정도 위치인지 예측합니다.</p>
+            <h2 class="section-title">👑 예상 등수 계산기</h2>
+            <p class="section-desc">내 점수가 전체에서 어느 정도 위치인지 알아볼까?</p>
             <div class="list-group">
                 <div class="item-row"><span class="item-label">학년 총 인원</span><input type="number" id="rank_total" value="100"></div>
-                <div class="item-row"><span class="item-label">과목 평균</span><input type="number" id="rank_mean" placeholder="예: 70"></div>
-                <div class="item-row"><span class="item-label">표준편차</span><input type="number" id="rank_sd" placeholder="예: 15"></div>
-                <div class="item-row"><span class="item-label">내 원점수</span><input type="number" id="rank_score" placeholder="예: 88"></div>
+                <div class="item-row"><span class="item-label">과목 평균</span><input type="number" id="rank_mean" placeholder="ex: 70"></div>
+                <div class="item-row"><span class="item-label">표준편차</span><input type="number" id="rank_sd" placeholder="ex: 15"></div>
+                <div class="item-row"><span class="item-label">내 원점수</span><input type="number" id="rank_score" placeholder="ex: 88"></div>
             </div>
-            <button class="calc-btn" onclick="calculateExpectedRank()">내 예상 등수 확인하기</button>
+            <button class="calc-btn" onclick="calculateExpectedRank()">내 예상 등수 확인하기 💖</button>
             <div class="result-box">
                 <div class="result-text">예측된 나의 등수</div>
                 <div class="result-score" id="rankResult">-</div>
@@ -251,7 +374,6 @@
     </div>
 
     <script>
-        // --- 탭 전환 로직 (추가됨) ---
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -260,7 +382,6 @@
             event.currentTarget.classList.add('active');
         }
 
-        // --- 기존 계산 로직 (변경 없이 완벽히 유지됨) ---
         function normalCDF(z) {
             let t = 1 / (1 + 0.2316419 * Math.abs(z));
             let d = 0.3989423 * Math.exp(-z * z / 2);
@@ -279,34 +400,90 @@
             return sign * (t - num / den);
         }
 
-        const subjects = [
-            { id: 'math', name: '수학', credit: 6 }, { id: 'physics', name: '물리', credit: 3 },
-            { id: 'chemistry', name: '화학', credit: 2 }, { id: 'life', name: '생명과학', credit: 3 },
-            { id: 'earth', name: '지구과학', credit: 3 }, { id: 'info', name: '정보', credit: 2 },
-            { id: 'english', name: '영어', credit: 3 }, { id: 'chinese', name: '중국어', credit: 3 },
+        const subjects_2_1 = [
+            { id: 'math', name: '수학', credit: 6 },
+            { id: 'physics', name: '물리', credit: 3 },
+            { id: 'chemistry', name: '화학', credit: 2 },
+            { id: 'life', name: '생명과학', credit: 3 },
+            { id: 'earth', name: '지구과학', credit: 3 },
+            { id: 'info', name: '정보', credit: 2 },
+            { id: 'english', name: '영어', credit: 3 },
+            { id: 'chinese', name: '중국어', credit: 3 },
             { id: 'history', name: '한국사', credit: 3 }
         ];
+
+        const subjects_2_2 = [
+            { id: 't2_math', name: '수학', credit: 4 },
+            { id: 't2_physics', name: '물리', credit: 3 },
+            { id: 't2_chemistry', name: '화학', credit: 2 },
+            { id: 't2_life', name: '생명과학', credit: 2 },
+            { id: 't2_earth', name: '지구과학', credit: 2 },
+            { id: 't2_info', name: '정보', credit: 2 },
+            { id: 't2_korean', name: '국어', credit: 3 },
+            { id: 't2_english', name: '영어', credit: 3 },
+            { id: 't2_history', name: '한국사', credit: 3 }
+        ];
+
+        const subjects_3_1 = [
+            { id: 't3_math', name: '수학', credit: 10 },
+            { id: 't3_physics', name: '물리', credit: 4 },
+            { id: 't3_chemistry', name: '화학', credit: 4 },
+            { id: 't3_life', name: '생명과학', credit: 4 },
+            { id: 't3_korean', name: '국어', credit: 3 },
+            { id: 't3_english', name: '영어', credit: 3 }
+        ];
         
-        const subjectList = document.getElementById('subjectList');
         let options = '';
         for(let i = 1; i <= 9; i++) options += `<option value="${i}">${i}등급</option>`;
         
-        subjects.forEach(sub => {
-            subjectList.innerHTML += `
+        const list_2_1 = document.getElementById('subjectList_2_1');
+        subjects_2_1.forEach(sub => {
+            list_2_1.innerHTML += `
                 <div class="item-row">
                     <div>
-                        <span class="item-label">${sub.name}</span>
-                        <br>
+                        <span class="item-label">${sub.name}</span><br>
                         <span class="item-sub">${sub.credit}단위</span>
                     </div>
                     <select id="${sub.id}">${options}</select>
                 </div>`;
         });
 
-        function calculateGrade() {
+        const list_2_2 = document.getElementById('subjectList_2_2');
+        subjects_2_2.forEach(sub => {
+            list_2_2.innerHTML += `
+                <div class="item-row">
+                    <div>
+                        <span class="item-label">${sub.name}</span><br>
+                        <span class="item-sub">${sub.credit}단위</span>
+                    </div>
+                    <select id="${sub.id}">${options}</select>
+                </div>`;
+        });
+
+        const list_3_1 = document.getElementById('subjectList_3_1');
+        subjects_3_1.forEach(sub => {
+            list_3_1.innerHTML += `
+                <div class="item-row">
+                    <div>
+                        <span class="item-label">${sub.name}</span><br>
+                        <span class="item-sub">${sub.credit}단위</span>
+                    </div>
+                    <select id="${sub.id}">${options}</select>
+                </div>`;
+        });
+
+        function calculateGrade(semester) {
             let total = 0;
-            subjects.forEach(sub => total += (parseInt(document.getElementById(sub.id).value) * sub.credit));
-            document.getElementById('finalResult').innerText = (total / 28).toFixed(2) + ' 등급';
+            if (semester === '2_1') {
+                subjects_2_1.forEach(sub => total += (parseInt(document.getElementById(sub.id).value) * sub.credit));
+                document.getElementById('finalResult_2_1').innerText = (total / 28).toFixed(2) + ' 등급';
+            } else if (semester === '2_2') {
+                subjects_2_2.forEach(sub => total += (parseInt(document.getElementById(sub.id).value) * sub.credit));
+                document.getElementById('finalResult_2_2').innerText = (total / 24).toFixed(2) + ' 등급';
+            } else if (semester === '3_1') {
+                subjects_3_1.forEach(sub => total += (parseInt(document.getElementById(sub.id).value) * sub.credit));
+                document.getElementById('finalResult_3_1').innerText = (total / 28).toFixed(2) + ' 등급';
+            }
         }
 
         function calculateSD() {
@@ -315,8 +492,8 @@
             const t = parseFloat(document.getElementById('sd_t').value);
             const res = document.getElementById('sdResult');
 
-            if (isNaN(raw) || isNaN(mean) || isNaN(t)) return res.innerHTML = '<span class="error-text">입력값을 확인하세요</span>';
-            if (t === 50) return res.innerHTML = '<span class="error-text">T점수 50은 계산 불가</span>';
+            if (isNaN(raw) || isNaN(mean) || isNaN(t)) return res.innerHTML = '<span class="error-text">입력값을 확인해줘!</span>';
+            if (t === 50) return res.innerHTML = '<span class="error-text">T점수 50은 계산 불가야</span>';
             
             const sd = (10 * (raw - mean)) / (t - 50);
             res.innerHTML = sd > 0 ? sd.toFixed(2) : '<span class="error-text">입력 오류(음수 발생)</span>';
@@ -329,8 +506,8 @@
             const rank = parseInt(document.getElementById('score_rank').value);
             const res = document.getElementById('scoreResult');
 
-            if (isNaN(total) || isNaN(mean) || isNaN(sd) || isNaN(rank)) return res.innerHTML = '<span class="error-text">입력값을 모두 채워주세요</span>';
-            if (rank > total || rank <= 0) return res.innerHTML = '<span class="error-text">올바른 등수를 입력하세요</span>';
+            if (isNaN(total) || isNaN(mean) || isNaN(sd) || isNaN(rank)) return res.innerHTML = '<span class="error-text">빈칸을 모두 채워줘!</span>';
+            if (rank > total || rank <= 0) return res.innerHTML = '<span class="error-text">올바른 등수를 입력해줘</span>';
 
             const topRatio = rank / total;
             const bottomRatio = 1 - topRatio; 
@@ -347,8 +524,8 @@
             const score = parseFloat(document.getElementById('rank_score').value);
             const res = document.getElementById('rankResult');
 
-            if (isNaN(total) || isNaN(mean) || isNaN(sd) || isNaN(score)) return res.innerHTML = '<span class="error-text">입력값을 모두 채워주세요</span>';
-            if (sd <= 0) return res.innerHTML = '<span class="error-text">표준편차는 0보다 커야 합니다</span>';
+            if (isNaN(total) || isNaN(mean) || isNaN(sd) || isNaN(score)) return res.innerHTML = '<span class="error-text">빈칸을 모두 채워줘!</span>';
+            if (sd <= 0) return res.innerHTML = '<span class="error-text">표준편차는 0보다 커야 해</span>';
 
             const zScore = (score - mean) / sd;
             const bottomRatio = normalCDF(zScore);
@@ -358,7 +535,7 @@
             if (expectedRank < 1) expectedRank = 1;
             
             const percent = (topRatio * 100).toFixed(1);
-            res.innerHTML = `${expectedRank}등 <span style="font-size:16px; color:var(--primary); display:block; margin-top:5px;">(상위 ${percent}%)</span>`;
+            res.innerHTML = `${expectedRank}등 <span style="font-size:16px; font-family:'Pretendard'; color:var(--text-main); display:block; margin-top:5px;">(상위 ${percent}%)</span>`;
         }
     </script>
 </body>
